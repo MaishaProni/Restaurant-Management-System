@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.restaurant.client.controller.WaiterOrderController"
+            prefWidth="1100" prefHeight="720" styleClass="root-pane">
+
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="16">
+            <padding><Insets top="12" right="20" bottom="12" left="20"/></padding>
+            <Label text="WAITER ORDER SCREEN" styleClass="header-title"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" styleClass="header-user"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="btn-danger"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="0">
+
+            <!-- LEFT: Tables -->
+            <VBox spacing="8" styleClass="panel" prefWidth="200">
+                <padding><Insets topRightBottomLeft="12"/></padding>
+                <Label text="Tables" styleClass="section-title"/>
+                <ListView fx:id="tableListView" VBox.vgrow="ALWAYS"/>
+                <Button text="Create Order for Table" onAction="#handleCreateOrder"
+                        styleClass="btn-primary" wrapText="true"/>
+                <Button text="Load Table's Order" onAction="#handleLoadTableOrder"
+                        styleClass="btn-secondary" wrapText="true"/>
+                <Button text="New / Clear" onAction="#handleNewOrder" styleClass="btn-secondary"/>
+            </VBox>
+
+            <!-- CENTER: Menu -->
+            <VBox spacing="8" styleClass="panel" HBox.hgrow="ALWAYS">
+                <padding><Insets topRightBottomLeft="12"/></padding>
+                <Label text="Menu" styleClass="section-title"/>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="Category:"/>
+                    <ComboBox fx:id="categoryCombo" onAction="#handleCategoryFilter" prefWidth="200"/>
+                </HBox>
+                <TableView fx:id="menuTable" VBox.vgrow="ALWAYS">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                    <columns>
+                        <TableColumn fx:id="menuNameCol"  text="Item"  prefWidth="200"/>
+                        <TableColumn fx:id="menuPriceCol" text="Price" prefWidth="80"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="Qty:"/>
+                    <Spinner fx:id="quantitySpinner" prefWidth="80"/>
+                    <Label text="Notes:"/>
+                    <TextField fx:id="notesField" promptText="Optional notes" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="addItemBtn" text="Add to Order" onAction="#handleAddItem" styleClass="btn-primary"/>
+                </HBox>
+            </VBox>
+
+            <!-- RIGHT: Current Order -->
+            <VBox spacing="8" styleClass="panel" prefWidth="280">
+                <padding><Insets topRightBottomLeft="12"/></padding>
+                <Label text="Current Order" styleClass="section-title"/>
+                <Label fx:id="currentOrderLabel" styleClass="info-label" wrapText="true"/>
+                <TableView fx:id="orderTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="orderItemNameCol"  text="Item"  prefWidth="120"/>
+                        <TableColumn fx:id="orderItemQtyCol"   text="Qty"   prefWidth="50"/>
+                        <TableColumn fx:id="orderItemPriceCol" text="Price" prefWidth="70"/>
+                    </columns>
+                </TableView>
+                <Button fx:id="removeItemBtn" text="Remove Selected" onAction="#handleRemoveItem" styleClass="btn-danger" maxWidth="Infinity"/>
+                <Label fx:id="orderTotalLabel" styleClass="total-label"/>
+                <Separator/>
+                <Button fx:id="confirmOrderBtn" text="CONFIRM ORDER (Send to Kitchen)"
+                        onAction="#handleConfirmOrder" styleClass="btn-success" wrapText="true" maxWidth="Infinity"/>
+                <Button fx:id="markServedBtn" text="MARK AS SERVED"
+                        onAction="#handleMarkServed" styleClass="btn-secondary" maxWidth="Infinity"/>
+                <Button fx:id="cancelOrderBtn" text="CANCEL ORDER"
+                        onAction="#handleCancelOrder" styleClass="btn-danger" maxWidth="Infinity"/>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.restaurant.client.controller.ManagerDashboardController"
+            prefWidth="1100" prefHeight="700" styleClass="root-pane">
+
+    <!-- Header -->
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="16">
+            <padding><Insets top="12" right="20" bottom="12" left="20"/></padding>
+            <Label text="MANAGER DASHBOARD" styleClass="header-title"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" styleClass="header-user"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="btn-danger"/>
+        </HBox>
+    </top>
+
+    <!-- Tabs -->
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+
+            <!-- ========== MENU MANAGEMENT ========== -->
+            <Tab text="Menu Management">
+                <SplitPane dividerPositions="0.30, 0.62">
+
+                    <!-- Panel 1: Categories -->
+                    <VBox spacing="8" styleClass="panel">
+                        <padding><Insets topRightBottomLeft="16"/></padding>
+                        <Label text="Categories" styleClass="section-title"/>
+                        <TableView fx:id="categoryTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="catIdCol"   text="ID"   prefWidth="50"/>
+                                <TableColumn fx:id="catNameCol" text="Name" prefWidth="160"/>
+                            </columns>
+                        </TableView>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <TextField fx:id="catNameField" promptText="Category name" HBox.hgrow="ALWAYS"/>
+                            <Button text="Add"    onAction="#handleAddCategory"    styleClass="btn-primary"/>
+                            <Button text="Delete" onAction="#handleDeleteCategory" styleClass="btn-danger"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Panel 2: Menu Items -->
+                    <VBox spacing="8" styleClass="panel">
+                        <padding><Insets topRightBottomLeft="16"/></padding>
+                        <Label text="Menu Items" styleClass="section-title"/>
+                        <TableView fx:id="itemTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="itemIdCol"    text="ID"        prefWidth="45"/>
+                                <TableColumn fx:id="itemNameCol"  text="Name"      prefWidth="150"/>
+                                <TableColumn fx:id="itemPriceCol" text="Price"     prefWidth="75"/>
+                                <TableColumn fx:id="itemAvailCol" text="Available" prefWidth="80"/>
+                            </columns>
+                        </TableView>
+                        <GridPane hgap="8" vgap="6">
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="70" halignment="RIGHT"/>
+                                <ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <Label text="Name:"     GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <TextField fx:id="itemNameField" promptText="Item name"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                            <Label text="Price:"    GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <TextField fx:id="itemPriceField" promptText="0.00"
+                                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                            <Label text="Category:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <ComboBox fx:id="itemCategoryCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" maxWidth="Infinity"/>
+                            <Label text="Available:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                            <CheckBox fx:id="itemAvailableCheck" selected="true"
+                                      GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        </GridPane>
+                        <HBox spacing="6">
+                            <Button text="Add Item"         onAction="#handleAddItem"                styleClass="btn-primary"   HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                            <Button text="Toggle Available" onAction="#handleToggleItemAvailability" styleClass="btn-secondary" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                            <Button text="Delete Item"      onAction="#handleDeleteItem"             styleClass="btn-danger"    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Panel 3: Recipe / Ingredients -->
+                    <VBox spacing="8" styleClass="panel">
+                        <padding><Insets topRightBottomLeft="16"/></padding>
+                        <Label text="Recipe Ingredients" styleClass="section-title"/>
+                        <Label text="(Select a menu item first)" style="-fx-text-fill: #888; -fx-font-size: 11px;"/>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <ComboBox fx:id="recipeIngredientCombo" promptText="Select ingredient" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                        </HBox>
+                        <HBox spacing="8" alignment="CENTER_LEFT">
+                            <Label text="Qty Required:"/>
+                            <TextField fx:id="recipeQtyField" promptText="e.g. 0.25" HBox.hgrow="ALWAYS"/>
+                        </HBox>
+                        <Button text="Add Ingredient to Recipe" onAction="#handleAddRecipeItem"
+                                styleClass="btn-primary" maxWidth="Infinity"/>
+                        <TableView fx:id="recipeTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="recipeIngNameCol" text="Ingredient"   prefWidth="160"/>
+                                <TableColumn fx:id="recipeQtyCol"     text="Qty Required" prefWidth="110"/>
+                            </columns>
+                        </TableView>
+                        <Button text="Remove Selected Ingredient" onAction="#handleDeleteRecipeItem"
+                                styleClass="btn-danger" maxWidth="Infinity"/>
+                    </VBox>
+
+                </SplitPane>
+            </Tab>
+
+            <!-- ========== INVENTORY ========== -->
+            <Tab text="Inventory">
+                <SplitPane dividerPositions="0.6">
+                    <VBox spacing="8" styleClass="panel">
+                        <padding><Insets topRightBottomLeft="16"/></padding>
+                        <Label fx:id="lowStockLabel" styleClass="alert-label"/>
+                        <Label text="Ingredients" styleClass="section-title"/>
+                        <TableView fx:id="ingredientTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="ingIdCol"     text="ID"        prefWidth="50"/>
+                                <TableColumn fx:id="ingNameCol"   text="Name"      prefWidth="160"/>
+                                <TableColumn fx:id="ingStockCol"  text="Stock"     prefWidth="80"/>
+                                <TableColumn fx:id="ingUnitCol"   text="Unit"      prefWidth="70"/>
+                                <TableColumn fx:id="ingThreshCol" text="Threshold" prefWidth="90"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    <VBox spacing="10" styleClass="panel">
+                        <padding><Insets topRightBottomLeft="16"/></padding>
+                        <Label text="Add Ingredient" styleClass="section-title"/>
+                        <Label text="Name:"/>
+                        <TextField fx:id="ingNameField"  promptText="Ingredient name"/>
+                        <Label text="Stock:"/>
+                        <TextField fx:id="ingStockField" promptText="Current stock"/>
+                        <Label text="Unit:"/>
+                        <TextField fx:id="ingUnitField"  promptText="e.g. kg, ltr, pcs"/>
+                        <Label text="Low-stock Threshold:"/>
+                        <TextField fx:id="ingThreshField" promptText="Threshold (default 0)"/>
+                        <Button text="Add Ingredient" onAction="#handleAddIngredient" styleClass="btn-primary"/>
+
+                        <Separator/>
+                        <Label text="Adjust Selected Stock" styleClass="section-title"/>
+                        <Label text="Quantity Change (+ or -):"/>
+                        <TextField fx:id="adjustQtyField"    promptText="e.g. 5.0 or -2.0"/>
+                        <Label text="Reason:"/>
+                        <TextField fx:id="adjustReasonField" promptText="Reason for adjustment"/>
+                        <Button text="Adjust Stock" onAction="#handleAdjustStock" styleClass="btn-secondary"/>
+                    </VBox>
+                </SplitPane>
+            </Tab>
+
+            <!-- ========== ORDER HISTORY ========== -->
+            <Tab text="Order History">
+                <VBox spacing="8" styleClass="panel">
+                    <padding><Insets topRightBottomLeft="16"/></padding>
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="Order History" styleClass="section-title"/>
+                        <HBox HBox.hgrow="ALWAYS"/>
+                        <Label text="Status:"/>
+                        <ComboBox fx:id="orderStatusFilter" prefWidth="140"/>
+                        <Button text="Load Orders" onAction="#handleLoadOrderHistory" styleClass="btn-primary"/>
+                    </HBox>
+                    <TableView fx:id="orderHistoryTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="ohOrderIdCol" text="Order #"  prefWidth="80"/>
+                            <TableColumn fx:id="ohTableCol"   text="Table"    prefWidth="70"/>
+                            <TableColumn fx:id="ohWaiterCol"  text="Waiter"   prefWidth="140"/>
+                            <TableColumn fx:id="ohStatusCol"  text="Status"   prefWidth="120"/>
+                            <TableColumn fx:id="ohTotalCol"   text="Total"    prefWidth="90"/>
+                            <TableColumn fx:id="ohTimeCol"    text="Created"  prefWidth="180"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+            <!-- ========== REPORTS ========== -->
+            <Tab text="Reports">
+                <VBox spacing="12" styleClass="panel">
+                    <padding><Insets topRightBottomLeft="20"/></padding>
+                    <Label text="Sales Reports" styleClass="section-title"/>
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+                        <Label text="From:"/>
+                        <DatePicker fx:id="startDatePicker"/>
+                        <Label text="To:"/>
+                        <DatePicker fx:id="endDatePicker"/>
+                        <Button text="Generate Report" onAction="#handleGenerateReport" styleClass="btn-primary"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Export to CSV" onAction="#handleExportCsv" styleClass="btn-secondary"/>
+                    </HBox>
+                    <Label fx:id="salesSummaryLabel" styleClass="summary-label"/>
+                    <Label text="Top-Selling Items" styleClass="section-title"/>
+                    <TableView fx:id="topItemTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="topItemNameCol" text="Item"     prefWidth="300"/>
+                            <TableColumn fx:id="topItemQtyCol"  text="Qty Sold" prefWidth="120"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.restaurant.client.controller.CashierBillingController"
+            prefWidth="1050" prefHeight="700" styleClass="root-pane">
+
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="16">
+            <padding><Insets top="12" right="20" bottom="12" left="20"/></padding>
+            <Label text="CASHIER BILLING SCREEN" styleClass="header-title"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" styleClass="header-user"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="btn-danger"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="0">
+
+            <!-- LEFT: Served Orders List -->
+            <VBox spacing="8" styleClass="panel" prefWidth="280">
+                <padding><Insets topRightBottomLeft="12"/></padding>
+                <Label text="Served Orders" styleClass="section-title"/>
+                <TableView fx:id="servedOrdersTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="ordIdCol"     text="Order #" prefWidth="80"/>
+                        <TableColumn fx:id="ordTableCol"  text="Table"   prefWidth="90"/>
+                        <TableColumn fx:id="ordStatusCol" text="Status"  prefWidth="90"/>
+                    </columns>
+                </TableView>
+                <Button text="Refresh" onAction="#handleRefresh" styleClass="btn-secondary" maxWidth="Infinity"/>
+            </VBox>
+
+            <!-- RIGHT: Bill Details -->
+            <VBox spacing="10" styleClass="panel" HBox.hgrow="ALWAYS">
+                <padding><Insets topRightBottomLeft="16"/></padding>
+                <Label text="Bill Details" styleClass="section-title"/>
+                <TableView fx:id="billItemsTable" prefHeight="180">
+                    <columns>
+                        <TableColumn fx:id="billItemNameCol"  text="Item"     prefWidth="200"/>
+                        <TableColumn fx:id="billItemQtyCol"   text="Qty"      prefWidth="60"/>
+                        <TableColumn fx:id="billItemPriceCol" text="Price"    prefWidth="80"/>
+                        <TableColumn fx:id="billItemSubCol"   text="Subtotal" prefWidth="90"/>
+                    </columns>
+                </TableView>
+
+                <GridPane hgap="16" vgap="4">
+                    <Label text="Subtotal:"         GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="bill-label"/>
+                    <Label fx:id="subtotalLabel"    GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="bill-value"/>
+                    <Label text="Tax (5%):"         GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="bill-label"/>
+                    <Label fx:id="taxLabel"         GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="bill-value"/>
+                    <Label text="Service (10%):"    GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="bill-label"/>
+                    <Label fx:id="serviceLabel"     GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="bill-value"/>
+                    <Label text="GRAND TOTAL:"      GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="bill-total-label"/>
+                    <Label fx:id="grandTotalLabel"  GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="bill-total-value"/>
+                </GridPane>
+
+                <Separator/>
+
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <Label text="Payment Method:" styleClass="field-label"/>
+                    <fx:define><ToggleGroup fx:id="paymentMethodGroup"/></fx:define>
+                    <RadioButton fx:id="cashRadio"   text="CASH"   toggleGroup="$paymentMethodGroup" selected="true"/>
+                    <RadioButton fx:id="cardRadio"   text="CARD"   toggleGroup="$paymentMethodGroup"/>
+                    <RadioButton fx:id="mobileRadio" text="MOBILE" toggleGroup="$paymentMethodGroup"/>
+                </HBox>
+
+                <Button text="PROCESS PAYMENT" onAction="#handleProcessPayment"
+                        styleClass="btn-success" maxWidth="Infinity" prefHeight="40"/>
+
+                <Separator/>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Receipt" styleClass="section-title"/>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="Download Receipt" onAction="#handleDownloadReceipt" styleClass="btn-secondary"/>
+                </HBox>
+                <TextArea fx:id="receiptArea" editable="false" prefRowCount="10"
+                          VBox.vgrow="ALWAYS" styleClass="detail-area"
+                          promptText="Receipt will appear here after payment."/>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.restaurant.client.controller.KitchenQueueController"
+            prefWidth="900" prefHeight="650" styleClass="root-pane">
+
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="16">
+            <padding><Insets top="12" right="20" bottom="12" left="20"/></padding>
+            <Label text="KITCHEN ORDER QUEUE" styleClass="header-title"/>
+            <HBox HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" styleClass="header-user"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="btn-danger"/>
+        </HBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.6" orientation="VERTICAL">
+
+            <VBox spacing="8" styleClass="panel">
+                <padding><Insets topRightBottomLeft="16"/></padding>
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="Live Order Queue" styleClass="section-title"/>
+                    <HBox HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="autoRefreshLabel" styleClass="info-label"/>
+                    <Button text="Refresh" onAction="#handleRefresh" styleClass="btn-secondary"/>
+                </HBox>
+                <TableView fx:id="queueTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="orderIdCol" text="Order #" prefWidth="90"/>
+                        <TableColumn fx:id="tableCol"   text="Table"   prefWidth="100"/>
+                        <TableColumn fx:id="statusCol"  text="Status"  prefWidth="120"/>
+                        <TableColumn fx:id="timeCol"    text="Time"    prefWidth="200"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="12">
+                    <Button text="Mark PREPARING" onAction="#handleMarkPreparing" styleClass="btn-secondary" prefWidth="160"/>
+                    <Button text="Mark READY"     onAction="#handleMarkReady"     styleClass="btn-success"   prefWidth="160"/>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="8" styleClass="panel">
+                <padding><Insets topRightBottomLeft="16"/></padding>
+                <Label text="Order Details" styleClass="section-title"/>
+                <TextArea fx:id="itemsDetailArea" editable="false" VBox.vgrow="ALWAYS"
+                          promptText="Select an order above to see its items." styleClass="detail-area"/>
+            </VBox>
+
+        </SplitPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.restaurant.client.controller.LoginController"
+      alignment="CENTER" spacing="16" prefWidth="420" prefHeight="500"
+      styleClass="root-pane">
+    <padding><Insets top="60" right="60" bottom="60" left="60"/></padding>
+
+    <Label text="RESTAURANT" styleClass="app-title"/>
+    <Label text="Management System" styleClass="app-subtitle"/>
+
+    <VBox spacing="8" maxWidth="300">
+        <Label text="Username" styleClass="field-label"/>
+        <TextField fx:id="usernameField" promptText="Enter username" styleClass="text-field"/>
+        <Label text="Password" styleClass="field-label"/>
+        <PasswordField fx:id="passwordField" promptText="Enter password" styleClass="text-field"/>
+    </VBox>
+
+    <Button fx:id="loginButton" text="LOG IN" onAction="#handleLogin"
+            styleClass="btn-primary" prefWidth="200"/>
+
+    <Label fx:id="statusLabel" styleClass="status-label" wrapText="true" maxWidth="300"/>
+</VBox>
